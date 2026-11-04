@@ -162,7 +162,9 @@ def build(argv):
     state = common.load_json(common.STATE_PATH, {})
     pinned = set(pinned_post_ids(cfg))
 
-    all_posts = sorted(store.values(), key=lambda p: (p.get("date", ""), p["id"]), reverse=True)
+    all_posts = sorted((p for p in store.values() if common.passes_blog_filter(p, cfg)),
+                       key=lambda p: (p.get("date", ""), p["id"]), reverse=True)
+    filtered_out = len(store) - len(all_posts)
     posts = [p for p in all_posts if not is_holdout(p, cfg, pinned)]
 
     if os.path.isdir(OUT):
@@ -236,9 +238,19 @@ def build(argv):
     state["last_build"] = dt.datetime.now(KST).isoformat(timespec="seconds")
     common.save_json(common.STATE_PATH, state)
 
-    print("허브에 실린 글 %d개 / 비교군 %d개 / 페이지 %d장" % (len(posts), len(all_posts) - len(posts), len(site.pages)))
+    print("허브에 실린 글 %d개 / 비교군 %d개 / 카테고리 거름으로 뺀 글 %d개 / 페이지 %d장" % (
+        len(posts), len(all_posts) - len(posts), filtered_out, len(site.pages)))
+    print("블로그별 실린 글: " + ", ".join("%s %d개" % (b, n) for b, n in sorted(
+        defaultdict_count(posts).items(), key=lambda kv: -kv[1])))
     if unmapped:
         print("주소 이름이 정해지지 않은 카테고리(config.json의 category_slugs에 추가 권장): " + ", ".join(unmapped))
+
+
+def defaultdict_count(posts):
+    counts = defaultdict(int)
+    for p in posts:
+        counts[p.get("blog", "")] += 1
+    return counts
 
 
 def read_measure_checks(path):

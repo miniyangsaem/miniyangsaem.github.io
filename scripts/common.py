@@ -21,8 +21,28 @@ NAVER_RE = re.compile(r"blog\.naver\.com/(?:PostView\.naver\?blogId=)?([A-Za-z0-
 
 
 def load_config():
+    """설정 읽기. 이름을 하이픈(google-site-verification)으로 적어도 밑줄 이름으로 알아듣는다."""
     with open(os.path.join(ROOT, "config.json"), encoding="utf-8") as f:
-        return json.load(f)
+        cfg = json.load(f)
+    for k in list(cfg):
+        if "-" in k:
+            fixed = k.replace("-", "_")
+            if not cfg.get(fixed):
+                cfg[fixed] = cfg[k]
+    return cfg
+
+
+def passes_blog_filter(post, cfg):
+    """blog_filters에 적힌 블로그는 지정한 카테고리(이름에 그 단어가 든 것)만 싣는다.
+    카테고리 이름을 아직 모르는 글은 싣지 않는다."""
+    rule = cfg.get("blog_filters", {}).get(post.get("blog", ""))
+    if not rule:
+        return True
+    cat = post.get("category", "")
+    include = rule.get("include_categories", [])
+    if include and not any(word in cat for word in include):
+        return False
+    return not any(word in cat for word in rule.get("exclude_categories", []))
 
 
 def load_json(path, default):

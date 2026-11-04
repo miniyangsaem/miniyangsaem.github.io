@@ -9,6 +9,7 @@ import datetime as dt
 import email.utils
 import html
 import json
+import os
 import re
 import sys
 import time
@@ -102,16 +103,47 @@ def fetch_naver_all(blog_id, max_pages=300):
     return posts
 
 
-def learn_categories(store):
-    """RSS에는 카테고리 이름이, 전체 목록에는 카테고리 번호만 있다.
-    두 곳에 모두 있는 글로 '번호 → 이름'을 배워서 예전 글에도 이름을 채운다."""
-    names = {}
+CATEGORY_CACHE = os.path.join(common.DATA_DIR, "categories.json")
+CATEGORY_NAME_RE = re.compile(r'categoryName\s*=\s*["\']([^"\']+)["\']')
+
+
+def fetch_category_name(blog_id, log_no):
+    """글 하나를 열어 그 글의 카테고리 이름을 읽는다(네이버 공식 기능 아님)."""
+    page = common.http_get("https://blog.naver.com/PostView.naver?blogId=%s&logNo=%s" % (blog_id, log_no),
+                           referer="https://blog.naver.com/" + blog_id)
+    m = CATEGORY_NAME_RE.search(page)
+    return urllib.parse.unquote_plus(m.group(1)).strip() if m else ""
+
+
+def learn_categories(store, fetch_missing=True):
+    """전체 목록에는 카테고리 번호만 있다. 이름을 채우는 순서:
+    1) RSS에 함께 나온 글로 '번호 → 이름'을 배운다
+    2) 그래도 모르는 번호는 그 카테고리 글 하나를 열어 이름을 읽는다(번호마다 한 번, 결과는 저장)"""
+    names = {tuple(k.split("|", 1)): v for k, v in common.load_json(CATEGORY_CACHE, {}).items()}
     for p in store.values():
         if p.get("category_no") and p.get("category"):
             names[(p["blog"], p["category_no"])] = p["category"]
+    missing = {}
+    for p in store.values():
+        key = (p.get("blog", ""), p.get("category_no", ""))
+        if p.get("category_no") and key not in names:
+            missing.setdefault(key, common.naver_key(p["url"])[1])
+    looked_up = 0
+    if fetch_missing:
+        for (blog_id, cat_no), log_no in missing.items():
+            try:
+                name = fetch_category_name(blog_id, log_no)
+            except Exception:
+                name = ""
+            if name:
+                names[(blog_id, cat_no)] = name
+                looked_up += 1
+            time.sleep(0.4)
     for p in store.values():
         if p.get("category_no") and not p.get("category"):
             p["category"] = names.get((p["blog"], p["category_no"]), "")
+    common.save_json(CATEGORY_CACHE, {"%s|%s" % k: v for k, v in names.items()})
+    return looked_up, len(missing) - looked_up
 
 
 def main(argv):
@@ -140,7 +172,9 @@ def main(argv):
         except Exception as e:
             report.append("티스토리 %s RSS 실패: %s" % (name, e))
 
-    learn_categories(store)
+    found, failed = learn_categories(store)
+    if found or failed:
+        report.append("카테고리 이름 새로 찾음 %d개, 못 찾음 %d개" % (found, failed))
     common.save_json(common.POSTS_PATH, store)
     print("\n".join(report) or "설정에 블로그가 없습니다 (config.json 확인)")
     print("저장된 글 합계: %d개" % len(store))
