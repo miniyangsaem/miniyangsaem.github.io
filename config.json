@@ -5,11 +5,15 @@
   "author": "",
   "affiliation": "",
 
-  "google_site_verification":"gyLYeCWxPqqjdsrYZVp9Gjs2ybzj7YIO5eJXBoQmmco",
-  "naver_site_verification":"dcd63c1ddb940350f1e2e262ca97c9e3140f81a0",
+  "google_site_verification": "gyLYeCWxPqqjdsrYZVp9Gjs2ybzj7YIO5eJXBoQmmco",
+  "naver_site_verification": "dcd63c1ddb940350f1e2e262ca97c9e3140f81a0",
 
   "naver_blog_ids": ["jmcgr", "scmsinturf", "sumturf", "scm950", "happybobo01"],
   "tistory_blogs": ["jmcgr"],
+
+  "blog_filters": {
+    "happybobo01": {"include_categories": ["인조잔디", "사업"]}
+  },
 
   "related_sites": [
     {"name": "주목씨지알 시공실적", "url": "https://jmcgr.co.kr/495150", "note": "회사 홈페이지의 인조잔디 시공 사례 게시판"}
@@ -18,8 +22,24 @@
   "category_base": "artificial-turf",
   "category_slugs": {
     "인조잔디": "turf",
+    "인조잔디 시공사례": "cases",
+    "인조잔디 시공": "installation",
+    "숨터프시공사례": "sumturf-cases",
+    "숨터프브랜드스토리": "sumturf-story",
+    "외부인테리어": "outdoor",
+    "실내인테리어": "indoor",
+    "조경용": "landscape",
+    "풋살장": "futsal",
+    "테니스장": "tennis",
+    "골프,파크골프장": "golf",
+    "배드민턴장": "badminton",
+    "게이트볼장": "gateball",
+    "러그,매트": "rug-mat",
+    "SCM 정보": "scm",
+    "게시판": "board",
+    "사업": "business",
     "반려견 인조잔디": "pet",
-    "시공": "installation",
+    "시공": "construction",
     "배수": "drainage",
     "품질·KS": "quality",
     "ESG 코팅": "esg-coating"
