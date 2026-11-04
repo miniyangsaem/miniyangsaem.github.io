@@ -1,12 +1,12 @@
 {
   "site_title": "인조잔디의 모든 것",
   "site_tagline": "인조잔디 현장 3년, 제조사 이사가 쓴 글 모음",
-  "site_url": "https://YOUR-GITHUB-ID.github.io",
+  "site_url": "https://miniyangsaem.github.io",
   "author": "",
   "affiliation": "",
 
-  "google_site_verification": "",
-  "naver_site_verification": "",
+  <meta name="google-site-verification" content="gyLYeCWxPqqjdsrYZVp9Gjs2ybzj7YIO5eJXBoQmmco" />,
+  <meta name="naver-site-verification" content="dcd63c1ddb940350f1e2e262ca97c9e3140f81a0" />,
 
   "naver_blog_ids": ["jmcgr", "scmsinturf", "sumturf", "scm950", "happybobo01"],
   "tistory_blogs": ["jmcgr"],
