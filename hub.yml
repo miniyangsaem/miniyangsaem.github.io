@@ -1,0 +1,62 @@
+name: 허브 자동 갱신
+
+on:
+  schedule:
+    - cron: "17 21 * * *"   # 매일 한국 시간 오전 6시 17분
+  workflow_dispatch:
+    inputs:
+      backfill:
+        description: "네이버 예전 글 전체 목록까지 가져오기 (처음 한 번)"
+        type: boolean
+        default: false
+  push:
+    branches: [main]
+    paths: ["config.json", "scripts/**", "static/**"]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: hub
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 글 수집
+        run: |
+          if [ "${{ inputs.backfill }}" = "true" ] || [ ! -f data/posts.json ]; then
+            python scripts/fetch.py --backfill
+          else
+            python scripts/fetch.py
+          fi
+      - name: 페이지 만들기
+        run: python scripts/build.py
+      - name: 수집 기록 저장 (60일 자동 꺼짐 방지도 겸함)
+        run: |
+          git config user.name "turf-hub-bot"
+          git config user.email "turf-hub-bot@users.noreply.github.com"
+          git add data/
+          git diff --cached --quiet || git commit -m "자동 갱신 $(date -u +%F)"
+          git push
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
