@@ -12,6 +12,7 @@ import json
 import os
 import shutil
 import sys
+import unicodedata
 import urllib.parse
 from collections import defaultdict
 
@@ -29,10 +30,21 @@ def today_kst(argv):
     return dt.datetime.now(KST).date()
 
 
+ZERO_WIDTH = dict.fromkeys(map(ord, "​‌‍﻿"))
+
+
+def norm_cat(name):
+    """카테고리 이름 정리: 특수 공백(줄바꿈 없는 공백 등)과 보이지 않는 글자를 보통 공백 하나로."""
+    text = unicodedata.normalize("NFKC", name or "").translate(ZERO_WIDTH)
+    return " ".join(text.split())
+
+
 def slug_for(category, cfg):
+    category = norm_cat(category)
     if not category:
         return "etc"
-    mapped = cfg.get("category_slugs", {}).get(category)
+    table = {norm_cat(k): v for k, v in cfg.get("category_slugs", {}).items()}
+    mapped = table.get(category)
     if mapped:
         return mapped
     return "c-" + hashlib.sha1(category.encode("utf-8")).hexdigest()[:6]
@@ -120,6 +132,10 @@ class Site:
         if cfg.get("author"):
             ld["author"] = {"@type": "Person", "name": cfg["author"]}
         full_title = title if title == cfg["site_title"] else "%s | %s" % (title, cfg["site_title"])
+        og = "".join('<meta property="og:%s" content="%s">\n' % (k, e(v)) for k, v in [
+            ("type", "website"), ("locale", "ko_KR"), ("site_name", cfg["site_title"]),
+            ("title", full_title), ("description", description), ("url", self.url + path)])
+        verify = og + verify
         doc = """<!doctype html>
 <html lang="ko">
 <head>
@@ -176,7 +192,7 @@ def build(argv):
 
     by_cat = defaultdict(list)
     for p in posts:
-        by_cat[p.get("category") or "기타"].append(p)
+        by_cat[norm_cat(p.get("category")) or "기타"].append(p)
     by_month = defaultdict(list)
     for p in posts:
         if p.get("date"):
@@ -233,7 +249,7 @@ def build(argv):
     with open(os.path.join(OUT, "robots.txt"), "w", encoding="utf-8") as f:
         f.write("User-agent: *\nAllow: /\n\nSitemap: %s/sitemap.xml\n" % site.url)
 
-    unmapped = sorted({c for c in by_cat if c != "기타" and c not in cfg.get("category_slugs", {})})
+    unmapped = sorted({c for c in by_cat if c != "기타" and slug_for(c, cfg).startswith("c-")})
     write_measure_table(all_posts, cfg, pinned)
     state["last_build"] = dt.datetime.now(KST).isoformat(timespec="seconds")
     common.save_json(common.STATE_PATH, state)
