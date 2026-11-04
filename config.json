@@ -4,39 +4,94 @@
   "site_url": "https://miniyangsaem.github.io",
   "author": "",
   "affiliation": "",
-
   "google_site_verification": "gyLYeCWxPqqjdsrYZVp9Gjs2ybzj7YIO5eJXBoQmmco",
   "naver_site_verification": "dcd63c1ddb940350f1e2e262ca97c9e3140f81a0",
-
-  "naver_blog_ids": ["jmcgr", "scmsinturf", "sumturf", "scm950", "happybobo01"],
-  "tistory_blogs": ["jmcgr"],
-
-  "blog_filters": {
-    "happybobo01": {"include_categories": ["인조잔디", "사업"]}
-  },
-
-  "related_sites": [
-    {"name": "주목씨지알 시공실적", "url": "https://jmcgr.co.kr/495150", "note": "회사 홈페이지의 인조잔디 시공 사례 게시판"}
+  "naver_blog_ids": [
+    "jmcgr",
+    "scmsinturf",
+    "sumturf",
+    "scm950",
+    "happybobo01"
   ],
-
+  "tistory_blogs": [
+    "jmcgr"
+  ],
+  "blog_filters": {
+    "happybobo01": {
+      "include_categories": [
+        "인조잔디",
+        "사업"
+      ]
+    }
+  },
+  "related_sites": [
+    {
+      "name": "주목씨지알 시공실적",
+      "url": "https://jmcgr.co.kr/495150",
+      "note": "회사 홈페이지의 인조잔디 시공 사례 게시판"
+    }
+  ],
   "category_base": "artificial-turf",
   "category_slugs": {
     "인조잔디": "turf",
     "인조잔디 시공사례": "cases",
     "인조잔디 시공": "installation",
+    "인조잔디 기본설명": "turf-basics",
+    "인조잔디 회사소개": "about",
+    "인조잔디 제품목록": "products",
+    "인조잔디 인증서": "certificates",
+    "인조잔디 견적문의": "quote",
+    "인조잔디 생산설비": "production-equipment",
+    "인조잔디 생산영상": "production-video",
+    "주목생산공장": "factory",
+    "이모저모": "news",
+    "스포츠 / 연예 토픽": "topics",
+    "서울": "seoul",
+    "경기": "gyeonggi",
+    "강원": "gangwon",
+    "충북": "chungbuk",
+    "충남": "chungnam",
+    "전북": "jeonbuk",
+    "전남": "jeonnam",
+    "경북": "gyeongbuk",
+    "경남": "gyeongnam",
+    "제주도": "jeju",
+    "숨터프": "sumturf",
     "숨터프시공사례": "sumturf-cases",
     "숨터프브랜드스토리": "sumturf-story",
+    "숨터프핵심사양": "sumturf-specs",
+    "신터프": "sinturf",
+    "쉼터프": "swimturf",
+    "게시판": "board",
     "외부인테리어": "outdoor",
     "실내인테리어": "indoor",
+    "인테리어꿀팁모음": "interior-tips",
+    "베란다,발코니,테라스": "balcony-terrace",
+    "정원,옥상": "garden-rooftop",
+    "가구,소품인테리어": "furniture-decor",
+    "가구추천": "furniture",
+    "조명 인테리어": "lighting",
+    "사무실": "office",
+    "러그,매트": "rug-mat",
     "조경용": "landscape",
     "풋살장": "futsal",
+    "실내 풋살장 시스템": "indoor-futsal",
+    "축구장": "soccer",
+    "야구장": "baseball",
     "테니스장": "tennis",
     "골프,파크골프장": "golf",
+    "족구장": "jokgu",
     "배드민턴장": "badminton",
     "게이트볼장": "gateball",
-    "러그,매트": "rug-mat",
+    "다목적구장": "multipurpose",
+    "종합운동장": "stadium",
+    "놀이터": "playground",
+    "유지보수AS": "maintenance",
     "SCM 정보": "scm",
-    "게시판": "board",
+    "SCM 상품": "scm-products",
+    "조인테이프": "joint-tape",
+    "카디매트": "kadi-mat",
+    "로고매트": "logo-mat",
     "사업": "business",
     "반려견 인조잔디": "pet",
     "시공": "construction",
@@ -44,18 +99,23 @@
     "품질·KS": "quality",
     "ESG 코팅": "esg-coating"
   },
-
   "excerpt_length": 180,
   "home_latest_count": 20,
   "list_page_size": 100,
-
   "featured": {
     "count": 7,
     "min_age_days": 30,
-    "keywords": ["인조잔디", "잔디", "반려견", "배수", "시공", "KS", "ESG"],
+    "keywords": [
+      "인조잔디",
+      "잔디",
+      "반려견",
+      "배수",
+      "시공",
+      "KS",
+      "ESG"
+    ],
     "pinned_urls": []
   },
-
   "measurement": {
     "holdout_percent": 0
   }
