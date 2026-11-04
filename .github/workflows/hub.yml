@@ -45,7 +45,12 @@ jobs:
           git config user.email "turf-hub-bot@users.noreply.github.com"
           git add data/
           git diff --cached --quiet || git commit -m "자동 갱신 $(date -u +%F)"
-          git push
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push && exit 0
+            echo "저장 재시도 $i"
+            sleep 5
+          done
+          echo "::warning::수집 기록 저장 실패. 사이트 반영은 계속 진행합니다."
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
