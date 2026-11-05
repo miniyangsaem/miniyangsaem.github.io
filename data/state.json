@@ -1,22 +1,29 @@
 {
- "featured_date": "2026-11-04",
+ "featured_date": "2026-11-05",
  "featured_history": {
   "naver:jmcgr:221398924196": "2026-11-04",
+  "naver:jmcgr:221399622348": "2026-11-05",
+  "naver:jmcgr:221399628748": "2026-11-05",
+  "naver:jmcgr:221399654636": "2026-11-05",
   "naver:jmcgr:221399660389": "2026-11-04",
   "naver:jmcgr:221399677861": "2026-11-04",
   "naver:jmcgr:221399731031": "2026-11-04",
   "naver:jmcgr:221399749426": "2026-11-04",
   "naver:jmcgr:221399753377": "2026-11-04",
-  "naver:jmcgr:221399756440": "2026-11-04"
+  "naver:jmcgr:221399756440": "2026-11-04",
+  "naver:jmcgr:221401541710": "2026-11-05",
+  "naver:jmcgr:221401626681": "2026-11-05",
+  "naver:jmcgr:221401638198": "2026-11-05",
+  "naver:jmcgr:221401679287": "2026-11-05"
  },
  "featured_ids": [
-  "naver:jmcgr:221398924196",
-  "naver:jmcgr:221399756440",
-  "naver:jmcgr:221399753377",
-  "naver:jmcgr:221399749426",
-  "naver:jmcgr:221399731031",
-  "naver:jmcgr:221399677861",
-  "naver:jmcgr:221399660389"
+  "naver:jmcgr:221399654636",
+  "naver:jmcgr:221399628748",
+  "naver:jmcgr:221399622348",
+  "naver:jmcgr:221401679287",
+  "naver:jmcgr:221401638198",
+  "naver:jmcgr:221401626681",
+  "naver:jmcgr:221401541710"
  ],
- "last_build": "2026-11-04T14:49:48+09:00"
+ "last_build": "2026-11-05T10:30:04+09:00"
 }
